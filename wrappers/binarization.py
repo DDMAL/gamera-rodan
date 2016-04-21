@@ -68,7 +68,7 @@ class gamera_gatos_background(RodanTask):
         'name': 'Greyscale PNG - background estimation image',
         'resource_types': ['image/greyscale+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
@@ -76,7 +76,8 @@ class gamera_gatos_background(RodanTask):
         image_source = load_image(inputs['Greyscale PNG - source image to binarize'][0]['resource_path'])
         image_prelim = load_image(inputs['Onebit PNG - preliminary binarization of the image'][0]['resource_path'])
         image_result = image_source.gatos_background(image_prelim, settings['Region size'])
-        image_result.save_PNG(outputs['Greyscale PNG - background estimation image'][0]['resource_path'])
+        for i in range(len(outputs['Greyscale PNG - background estimation image'])):
+            image_result.save_PNG(outputs['Greyscale PNG - background estimation image'][i]['resource_path'])
         return True
 
 class gamera_gatos_threshold(RodanTask):
@@ -129,10 +130,10 @@ class gamera_gatos_threshold(RodanTask):
     	'maximum': 1
     }]
     output_port_types = [{
-        'name': 'Onebit PNG - binarized image',
+        'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
@@ -141,7 +142,8 @@ class gamera_gatos_threshold(RodanTask):
         image_background = load_image(inputs['Greyscale PNG - estimated background of the image'][0]['resource_path'])
     	image_prelim = load_image(inputs['Onebit PNG - preliminary binarization of the image'][0]['resource_path'])
     	image_result = image_source.gatos_threshold(image_background, image_prelim, settings['q'], settings['p1'], settings['p2']) 
-    	image_result.save_PNG(outputs['Onebit PNG - binarized image'][0]['resource_path'])
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 
 class gamera_brink_threshold(RodanTask):
@@ -165,14 +167,15 @@ class gamera_brink_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
         image_result = image_source.brink_threshold() 
-        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 
 class gamera_sauvola_threshold(RodanTask):
@@ -232,14 +235,15 @@ class gamera_sauvola_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
         image_result = image_source.sauvola_threshold(settings['Region size'], settings['Sensitivity'], settings['Dynamic range'], settings['Lower bound'], settings['Upper bound']) 
-        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 
 class gamera_niblack_threshold(RodanTask):
@@ -292,12 +296,13 @@ class gamera_niblack_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
         image_result = image_source.niblack_threshold(settings['Region size'], settings['Sensitivity'], settings['Lower bound'], settings['Upper bound']) 
-        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True

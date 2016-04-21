@@ -56,7 +56,7 @@ class gamera_masking(RodanTask):
         'name': 'Source image with mask applied',
         'resource_types': ['image/rgb+png', 'image/onebit+png', 'image/greyscale+png', 'image/grey16+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
@@ -64,5 +64,6 @@ class gamera_masking(RodanTask):
         image_source = load_image(inputs['Source image'][0]['resource_path'])
         image_mask = load_image(inputs['Mask image'][0]['resource_path'])
         image_result = image_source.and_image(image_mask)
-        image_result.save_PNG(outputs['Source image with mask applied'][0]['resource_path'])
+        for i in range(len(outputs['Source image with mask applied'])):
+            image_result.save_PNG(outputs['Source image with mask applied'][i]['resource_path'])
         return True

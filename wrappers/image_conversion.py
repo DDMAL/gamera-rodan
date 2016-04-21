@@ -52,7 +52,7 @@ class gamera_to_rgb(RodanTask):
         'name': 'RGB PNG image',
         'resource_types': ['image/rgb+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
@@ -60,6 +60,8 @@ class gamera_to_rgb(RodanTask):
         image_source = load_image(inputs['PNG image'][0]['resource_path'])
         image_result = image_source.to_rgb()
         image_result.save_PNG(outputs['RGB PNG image'][0]['resource_path'])
+        for i in range(len(outputs['RGB PNG image'])):
+            image_result.save_PNG(outputs['RGB PNG image'][i]['resource_path'])
         return True
 
 class gamera_to_greyscale(RodanTask):
@@ -83,14 +85,15 @@ class gamera_to_greyscale(RodanTask):
         'name': 'Greyscale PNG image',
         'resource_types': ['image/greyscale+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['PNG image'][0]['resource_path'])
         image_result = image_source.to_greyscale()
-        image_result.save_PNG(outputs['Greyscale PNG image'][0]['resource_path'])
+        for i in range(len(outputs['Greyscale PNG image'])):
+            image_result.save_PNG(outputs['Greyscale PNG image'][i]['resource_path'])
         return True
 
 class gamera_to_grey16(RodanTask):
@@ -114,14 +117,15 @@ class gamera_to_grey16(RodanTask):
         'name': 'Greyscale 16 PNG image',
         'resource_types': ['image/grey16+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['PNG image'][0]['resource_path'])
         image_result = image_source.to_grey16()
-        image_result.save_PNG(outputs['Greyscale 16 PNG image'][0]['resource_path'])
+        for i in range(len(outputs['Greyscale 16 PNG image'])):
+            image_result.save_PNG(outputs['Greyscale 16 PNG image'][i]['resource_path'])
         return True
 
 class gamera_to_onebit(RodanTask):
@@ -145,12 +149,13 @@ class gamera_to_onebit(RodanTask):
         'name': 'One-bit PNG image',
         'resource_types': ['image/grey16+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['PNG image'][0]['resource_path'])
         image_result = image_source.to_onebit()
-        image_result.save_PNG(outputs['One-bit PNG image'][0]['resource_path'])
+        for i in range(len(outputs['One-bit PNG image'])):
+            image_result.save_PNG(outputs['One-bit PNG image'][i]['resource_path'])
         return True

@@ -63,19 +63,15 @@ class gamera_otsu_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
-        # Set execution settings.
-        compression = 0
-        if settings['Storage format'] == 'RLE (run-length encoding compression)':
-            compression = 1
-
         image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
-    	image_result = image_source.otsu_threshold(compression) 
-    	image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+    	image_result = image_source.otsu_threshold(settings['Storage format']) 
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 
 class gamera_tsai_moment_preserving_threshold(RodanTask):
@@ -110,19 +106,15 @@ class gamera_tsai_moment_preserving_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
-        # Set execution settings.
-        compression = 0
-        if settings['Storage format'] == 'RLE (run-length encoding compression)':
-            compression = 1
-
         image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
-        image_result = image_source.tsai_moment_preserving_threshold(compression) 
-        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        image_result = image_source.tsai_moment_preserving_threshold(settings['Storage format']) 
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 
 class gamera_abutaleb_threshold(RodanTask):
@@ -157,19 +149,15 @@ class gamera_abutaleb_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
-        # Set execution settings.
-        compression = 0
-        if settings['Storage format'] == 'RLE (run-length encoding compression)':
-            compression = 1
-
         image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
-        image_result = image_source.abutaleb_threshold(compression) 
-        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        image_result = image_source.abutaleb_threshold(settings['Storage format']) 
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 
 class gamera_bernsen_threshold(RodanTask):
@@ -223,17 +211,18 @@ class gamera_bernsen_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
         image_result = image_source.bernsen_threshold(settings['Storage format'], settings['Region size'], settings['Contrast limit'], settings['Doubt to black']) 
-        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 
-class gamera_djbu_threshold(RodanTask):
+class gamera_djvu_threshold(RodanTask):
 
     name = 'DjVu threshold'
     author = 'Ryan Bannon'
@@ -285,13 +274,14 @@ class gamera_djbu_threshold(RodanTask):
         'name': 'Onebit PNG image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_source = load_image(inputs['RGB PNG image'][0]['resource_path'])
         image_result = image_source.djvu_threshold(settings['Smoothness'], settings['Maximum block size'], settings['Minimum block size'], settings['Block factor']) 
-        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        for i in range(len(outputs['Onebit PNG image'])):
+            image_result.save_PNG(outputs['Onebit PNG image'][i]['resource_path'])
         return True
 

@@ -63,12 +63,13 @@ class gamera_despeckle(RodanTask):
         'name': 'Onebit PNG despeckled image',
         'resource_types': ['image/onebit+png'],
         'minimum': 1,
-        'maximum': 1
+        'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
 
         image_result = load_image(inputs['Onebit PNG image'][0]['resource_path'])
     	image_result.despeckle(settings['Connected component size']) 
-    	image_result.save_PNG(outputs['Onebit PNG despeckled image'][0]['resource_path'])
+        for i in range(len(outputs['Onebit PNG despeckled image'])):
+            image_result.save_PNG(outputs['Onebit PNG despeckled image'][i]['resource_path'])
         return True
