@@ -25,6 +25,7 @@
 
 import gamera
 from gamera.core import load_image
+from gamera.plugins import morphology
 from rodan.jobs.base import RodanTask
 
 import logging
@@ -34,7 +35,7 @@ class gamera_despeckle(RodanTask):
 
     name = 'Despeckle'
     author = 'Ryan Bannon'
-    description = gamera.plugins.morphology.despeckle.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
+    description = morphology.despeckle.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
     settings = {
         'title': 'Despeckle settings',
         'type': 'object',
@@ -49,7 +50,7 @@ class gamera_despeckle(RodanTask):
     }
 
     enabled = True
-    category = "Morphology"
+    category = "Gamera - Morphology"
     interactive = False
 
     input_port_types = [{
@@ -68,6 +69,6 @@ class gamera_despeckle(RodanTask):
     def run_my_task(self, inputs, settings, outputs):
 
         image_result = load_image(inputs['Onebit PNG image'][0]['resource_path'])
-	image_result.despeckle(settings['Connected component size']) 
-	image_result.save_PNG(outputs['Onebit PNG despeckled image'][0]['resource_path'])
+    	image_result.despeckle(settings['Connected component size']) 
+    	image_result.save_PNG(outputs['Onebit PNG despeckled image'][0]['resource_path'])
         return True

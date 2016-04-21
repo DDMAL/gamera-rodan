@@ -37,7 +37,7 @@ class gamera_masking(RodanTask):
     description = Image.and_image.__doc__.replace("\\n", "\n").replace('\\"', '"')
     settings ={}
     enabled = True
-    category = 'Masking'
+    category = 'Gamera - Masking'
     interactive = False
 
     input_port_types = [{
@@ -65,69 +65,4 @@ class gamera_masking(RodanTask):
         image_mask = load_image(inputs['Mask image'][0]['resource_path'])
         image_result = image_source.and_image(image_mask)
         image_result.save_PNG(outputs['Source image with mask applied'][0]['resource_path'])
-        return True
-
-class gamera_gatos_threshold(RodanTask):
-
-    name = 'Gatos Threshold'
-    author = 'Ryan Bannon'
-    description = gamera.plugins.binarization.gatos_threshold.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
-    settings = {
-        'title': 'Gatos threshold settings',
-        'type': 'object',
-        'properties': {
-            'q': {
-                'type': 'number',
-                'default': 0.6,
-                'description': 'Use default setting (unless you know what you are doing).'
-            },
-            'p1': {
-                'type': 'number',
-                'default': 0.5,
-                'description': 'Use default setting (unless you know what you are doing).' 
-            },
-            'p2': {
-                'type': 'number',
-                'default': 0.8,
-                'description': 'Use default setting (unless you know what you are doing).'
-            }
-        }
-    }
-
-    enabled = True
-    category = "Binarization"
-    interactive = False
-
-    input_port_types = [{
-        'name': 'Onebit PNG - preliminary binarization of the image',
-        'resource_types': ['image/onebit+png'],
-        'minimum': 1,
-        'maximum': 1
-    },
-    {
-	'name': 'Greyscale PNG - estimated background of the image',
-	'resource_types': ['image/greyscale+png'],
-	'minimum': 1,
-	'maximum': 1
-    },
-    {
-	'name': 'Greyscale PNG - source image to binarize',
-	'resource_types': ['image/greyscale+png'],
-	'minimum': 1,
-	'maximum': 1
-    }]
-    output_port_types = [{
-        'name': 'Onebit PNG - binarized image',
-        'resource_types': ['image/onebit+png'],
-        'minimum': 1,
-        'maximum': 1
-    }]
-
-    def run_my_task(self, inputs, settings, outputs):
-
-        image_source = load_image(inputs['Greyscale PNG - source image to binarize'][0]['resource_path'])
-        image_background = load_image(inputs['Greyscale PNG - estimated background of the image'][0]['resource_path'])
-	image_prelim = load_image(inputs['Onebit PNG - preliminary binarization of the image'][0]['resource_path'])
-	image_result = image_source.gatos_threshold(image_background, image_prelim, settings['q'], settings['p1'], settings['p2']) 
-	image_result.save_PNG(outputs['Onebit PNG - binarized image'][0]['resource_path'])
         return True

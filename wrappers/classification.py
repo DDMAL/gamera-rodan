@@ -35,11 +35,11 @@ from rodan.jobs.base import RodanTask
 
 
 class ClassificationTask(RodanTask):
-    name = 'gamera.custom.classification'
+    name = 'Classifier'
     author = "Ling-Xiao Yang"
     description = "Performs classification on a binarized staff-less image and outputs an xml file"
     enabled = True
-    category = "Classifier"
+    category = "Gamera - Classification"
     settings = {}
     interactive = False
 

@@ -25,6 +25,7 @@
 
 import gamera
 from gamera.core import load_image
+from gamera.plugins import binarization
 from rodan.jobs.base import RodanTask
 
 import logging
@@ -34,21 +35,21 @@ class gamera_gatos_background(RodanTask):
 
     name = 'Gatos Background'
     author = 'Ryan Bannon'
-    description = gamera.plugins.binarization.gatos_background.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
+    description = binarization.gatos_background.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
     settings ={
     	'title': 'Gatos background settings',
-	'type': 'object',
-	'properties': {
-	    'Region size': {
-		'type': 'integer',
-		'minimum': 1,
-		'default': 15
-	    }	
-	}
+    	'type': 'object',
+    	'properties': {
+    	    'Region size': {
+    		'type': 'integer',
+    		'minimum': 1,
+    		'default': 15
+    	    }	
+	   }
     }
 
     enabled = True
-    category = 'Binarization'
+    category = 'Gamera - Binarization'
     interactive = False
 
     input_port_types = [{
@@ -106,7 +107,7 @@ class gamera_gatos_threshold(RodanTask):
     }
 
     enabled = True
-    category = "Binarization"
+    category = "Gamera - Binarization"
     interactive = False
 
     input_port_types = [{
@@ -116,16 +117,16 @@ class gamera_gatos_threshold(RodanTask):
         'maximum': 1
     },
     {
-	'name': 'Greyscale PNG - estimated background of the image',
-	'resource_types': ['image/greyscale+png'],
-	'minimum': 1,
-	'maximum': 1
+    	'name': 'Greyscale PNG - estimated background of the image',
+    	'resource_types': ['image/greyscale+png'],
+    	'minimum': 1,
+    	'maximum': 1
     },
     {
-	'name': 'Greyscale PNG - source image to binarize',
-	'resource_types': ['image/greyscale+png'],
-	'minimum': 1,
-	'maximum': 1
+    	'name': 'Greyscale PNG - source image to binarize',
+    	'resource_types': ['image/greyscale+png'],
+    	'minimum': 1,
+    	'maximum': 1
     }]
     output_port_types = [{
         'name': 'Onebit PNG - binarized image',
@@ -138,7 +139,7 @@ class gamera_gatos_threshold(RodanTask):
 
         image_source = load_image(inputs['Greyscale PNG - source image to binarize'][0]['resource_path'])
         image_background = load_image(inputs['Greyscale PNG - estimated background of the image'][0]['resource_path'])
-	image_prelim = load_image(inputs['Onebit PNG - preliminary binarization of the image'][0]['resource_path'])
-	image_result = image_source.gatos_threshold(image_background, image_prelim, settings['q'], settings['p1'], settings['p2']) 
-	image_result.save_PNG(outputs['Onebit PNG - binarized image'][0]['resource_path'])
+    	image_prelim = load_image(inputs['Onebit PNG - preliminary binarization of the image'][0]['resource_path'])
+    	image_result = image_source.gatos_threshold(image_background, image_prelim, settings['q'], settings['p1'], settings['p2']) 
+    	image_result.save_PNG(outputs['Onebit PNG - binarized image'][0]['resource_path'])
         return True
