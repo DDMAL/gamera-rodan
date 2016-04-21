@@ -4,7 +4,7 @@
 # Program Name:           gamera-rodan
 # Program Description:    Job wrappers that allows some Gamrea functionality to work in Rodan.
 #
-# Filename:               gamera-rodan/wrappers/image_conversion.py
+# Filename:               gamera-rodan/wrappers/plugins/image_conversion.py
 # Purpose:                Wrapper for image conversion plugins.
 #
 # Copyright (C) 2016 DDMAL

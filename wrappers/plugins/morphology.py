@@ -4,7 +4,7 @@
 # Program Name:           gamera-rodan
 # Program Description:    Job wrappers that allows some Gamrea functionality to work in Rodan.
 #
-# Filename:               gamera-rodan/wrappers/morphology.py
+# Filename:               gamera-rodan/wrappers/plugins/morphology.py
 # Purpose:                Wrapper for morphology plugins.
 #
 # Copyright (C) 2016 DDMAL

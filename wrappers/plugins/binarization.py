@@ -4,7 +4,7 @@
 # Program Name:           gamera-rodan
 # Program Description:    Job wrappers that allows some Gamrea functionality to work in Rodan.
 #
-# Filename:               gamera-rodan/wrappers/binarization.py
+# Filename:               gamera-rodan/wrappers/plugins/binarization.py
 # Purpose:                Wrapper for binarization plugins.
 #
 # Copyright (C) 2016 DDMAL
