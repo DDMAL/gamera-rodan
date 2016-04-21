@@ -143,3 +143,161 @@ class gamera_gatos_threshold(RodanTask):
     	image_result = image_source.gatos_threshold(image_background, image_prelim, settings['q'], settings['p1'], settings['p2']) 
     	image_result.save_PNG(outputs['Onebit PNG - binarized image'][0]['resource_path'])
         return True
+
+class gamera_brink_threshold(RodanTask):
+
+    name = 'Brink Threshold'
+    author = 'Ryan Bannon'
+    description = gamera.plugins.binarization.brink_threshold.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
+    settings = {}
+
+    enabled = True
+    category = "Gamera - Binarization"
+    interactive = False
+
+    input_port_types = [{
+        'name': 'Greyscale PNG image',
+        'resource_types': ['image/greyscale+png'],
+        'minimum': 1,
+        'maximum': 1
+    }]
+    output_port_types = [{
+        'name': 'Onebit PNG image',
+        'resource_types': ['image/onebit+png'],
+        'minimum': 1,
+        'maximum': 1
+    }]
+
+    def run_my_task(self, inputs, settings, outputs):
+
+        image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
+        image_result = image_source.brink_threshold() 
+        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        return True
+
+class gamera_sauvola_threshold(RodanTask):
+
+    name = 'Sauvola Threshold'
+    author = 'Ryan Bannon'
+    description = gamera.plugins.binarization.sauvola_threshold.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
+    settings = {
+        'title': 'Sauvola threshold settings',
+        'type': 'object',
+        'properties': {
+            'Region size': {
+                'type': 'integer',
+                'default': 15,
+                'description': 'The size of the region in which to calculate a threshold.'
+            },
+            'Sensitivity': {
+                'type': 'number',
+                'default': 0.5,
+                'description': 'The sensitivity weight on the adjusted variance.' 
+            },
+            'Dynamic range': {
+                'type': 'integer',
+                'minimum': 1,
+                'maximum': 255,
+                'default': 128,
+                'description': 'The dynamic range of the variance.'
+            },
+            'Lower bound': {
+                'type': 'integer',
+                'minimum': 0,
+                'maximum': 255,
+                'default': 20,
+                'description': 'A global threshold beneath which all pixels are considered black.'
+            },
+            'Upper bound': {
+                'type': 'integer',
+                'minimum': 0,
+                'maximum': 255,
+                'default': 150,
+                'description': 'A global threshold above which all pixels are considered white.'
+            }
+        }
+    }
+
+    enabled = True
+    category = "Gamera - Binarization"
+    interactive = False
+
+    input_port_types = [{
+        'name': 'Greyscale PNG image',
+        'resource_types': ['image/greyscale+png'],
+        'minimum': 1,
+        'maximum': 1
+    }]
+    output_port_types = [{
+        'name': 'Onebit PNG image',
+        'resource_types': ['image/onebit+png'],
+        'minimum': 1,
+        'maximum': 1
+    }]
+
+    def run_my_task(self, inputs, settings, outputs):
+
+        image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
+        image_result = image_source.sauvola_threshold(settings['Region size'], settings['Sensitivity'], settings['Dynamic range'], settings['Lower bound'], settings['Upper bound']) 
+        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        return True
+
+class gamera_niblack_threshold(RodanTask):
+
+    name = 'Niblack Threshold'
+    author = 'Ryan Bannon'
+    description = gamera.plugins.binarization.niblack_threshold.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
+    settings = {
+        'title': 'Niblack threshold settings',
+        'type': 'object',
+        'properties': {
+            'Region size': {
+                'type': 'integer',
+                'default': 15,
+                'description': 'The size of the region in which to calculate a threshold.'
+            },
+            'Sensitivity': {
+                'type': 'number',
+                'default': -0.2,
+                'description': 'The sensitivity weight on the adjusted variance.' 
+            },
+            'Lower bound': {
+                'type': 'integer',
+                'minimum': 0,
+                'maximum': 255,
+                'default': 20,
+                'description': 'A global threshold beneath which all pixels are considered black.'
+            },
+            'Upper bound': {
+                'type': 'integer',
+                'minimum': 0,
+                'maximum': 255,
+                'default': 150,
+                'description': 'A global threshold above which all pixels are considered white.'
+            }
+        }
+    }
+
+    enabled = True
+    category = "Gamera - Binarization"
+    interactive = False
+
+    input_port_types = [{
+        'name': 'Greyscale PNG image',
+        'resource_types': ['image/greyscale+png'],
+        'minimum': 1,
+        'maximum': 1
+    }]
+    output_port_types = [{
+        'name': 'Onebit PNG image',
+        'resource_types': ['image/onebit+png'],
+        'minimum': 1,
+        'maximum': 1
+    }]
+
+    def run_my_task(self, inputs, settings, outputs):
+
+        image_source = load_image(inputs['Greyscale PNG image'][0]['resource_path'])
+        image_result = image_source.niblack_threshold(settings['Region size'], settings['Sensitivity'], settings['Lower bound'], settings['Upper bound']) 
+        image_result.save_PNG(outputs['Onebit PNG image'][0]['resource_path'])
+        return True
