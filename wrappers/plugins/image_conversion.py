@@ -147,7 +147,7 @@ class gamera_to_onebit(RodanTask):
     }]
     output_port_types = [{
         'name': 'One-bit PNG image',
-        'resource_types': ['image/grey16+png'],
+        'resource_types': ['image/onebit+png'],
         'minimum': 1,
         'maximum': 2
     }]
