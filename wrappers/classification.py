@@ -40,7 +40,17 @@ class ClassificationTask(RodanTask):
     description = "Performs classification on a binarized staff-less image and outputs an xml file."
     enabled = True
     category = "Gamera - Classification"
-    settings = {}
+    settings = {
+    	'title': 'Gatos background settings',
+    	'type': 'object',
+    	'properties': {
+    	    'Bounding box size': {
+    		'type': 'integer',
+    		'minimum': 1,
+    		'default': 4
+    	    }
+	}
+    }
     interactive = False
 
     input_port_types = [{
@@ -77,7 +87,7 @@ class ClassificationTask(RodanTask):
         cknn = gamera.knn.kNNNonInteractive(tempPath)
         if 'Feature Selection' in inputs:
             cknn.load_settings(inputs['Feature Selection'][0]['resource_path'])
-        func = gamera.classify.BoundingBoxGroupingFunction(4)
+        func = gamera.classify.BoundingBoxGroupingFunction(settings['Bounding box size'])
         input_image = gamera.core.load_image(staffless_image_path)
         ccs = input_image.cc_analysis()
 
