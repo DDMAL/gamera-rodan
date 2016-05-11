@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 # Program Name:           gamera-rodan
 # Program Description:    Job wrappers that allows some Gamrea functionality to work in Rodan.
 #
@@ -21,16 +21,15 @@
 #
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#--------------------------------------------------------------------------------------------------
+# --------------------------------------------------------------------------------------------------
 
+import os
+from shutil import copyfile
 import gamera.core
 import gamera.gamera_xml
 import gamera.classify
 import gamera.knn
 from gamera.core import load_image
-import os
-from shutil import copyfile
-
 from rodan.jobs.base import RodanTask
 
 
@@ -41,15 +40,15 @@ class ClassificationTask(RodanTask):
     enabled = True
     category = "Gamera - Classification"
     settings = {
-    	'title': 'Gatos background settings',
-    	'type': 'object',
-    	'properties': {
-    	    'Bounding box size': {
-    		'type': 'integer',
-    		'minimum': 1,
-    		'default': 4
-    	    }
-	}
+        'title': 'Bounding box size',
+        'type': 'object',
+        'properties': {
+            'Bounding box size': {
+                'type': 'integer',
+                'minimum': 1,
+                'default': 4
+            }
+        }
     }
     interactive = False
 
@@ -85,8 +84,9 @@ class ClassificationTask(RodanTask):
         cknn = gamera.knn.kNNNonInteractive(tempPath)
         if 'Feature Selection' in inputs:
             cknn.load_settings(inputs['Feature Selection'][0]['resource_path'])
-        func = gamera.classify.BoundingBoxGroupingFunction(settings['Bounding box size'])
-        input_image = gamera.core.load_image(staffless_image_path)
+        func = gamera.classify.BoundingBoxGroupingFunction(
+            settings['Bounding box size'])
+        input_image = load_image(staffless_image_path)
         ccs = input_image.cc_analysis()
 
         cs_image = cknn.group_and_update_list_automatic(ccs,
@@ -95,6 +95,8 @@ class ClassificationTask(RodanTask):
                                                         max_graph_size=16)
 
         cknn.generate_features_on_glyphs(cs_image)
-        output_xml = gamera.gamera_xml.WriteXMLFile(glyphs=cs_image, with_features=True)
+        output_xml = gamera.gamera_xml.WriteXMLFile(glyphs=cs_image,
+                                                    with_features=True)
         for i in range(len(outputs['Classification Result'])):
-            output_xml.write_filename(outputs['Classification Result'][i]['resource_path'])
+            output_xml.write_filename(
+                outputs['Classification Result'][i]['resource_path'])
