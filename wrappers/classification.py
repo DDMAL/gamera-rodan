@@ -29,7 +29,7 @@ import gamera.core
 import gamera.gamera_xml
 import gamera.classify
 import gamera.knn
-from gamera.core import load_image
+from gamera.gamera_xml import glyphs_from_xml
 from rodan.jobs.base import RodanTask
 
 
@@ -53,12 +53,12 @@ class ClassificationTask(RodanTask):
     interactive = False
 
     input_port_types = [{
-        'name': 'Staffless Image',
-        'resource_types': ['image/onebit+png'],
+        'name': 'Connected Components',
+        'resource_types': ['application/gamera+xml'],
         'minimum': 1,
         'maximum': 1
     }, {
-        'name': 'Classifier',
+        'name': 'Training Data',
         'resource_types': ['application/gamera+xml'],
         'minimum': 1,
         'maximum': 1
@@ -76,8 +76,7 @@ class ClassificationTask(RodanTask):
     }]
 
     def run_my_task(self, inputs, settings, outputs):
-        staffless_image_path = inputs['Staffless Image'][0]['resource_path']
-        classifier_path = inputs['Classifier'][0]['resource_path']
+        classifier_path = inputs['Training Data'][0]['resource_path']
         with self.tempdir() as tdir:
             tempPath = os.path.join(tdir, classifier_path + '.xml')
         copyfile(classifier_path, tempPath)
@@ -86,15 +85,17 @@ class ClassificationTask(RodanTask):
             cknn.load_settings(inputs['Feature Selection'][0]['resource_path'])
         func = gamera.classify.BoundingBoxGroupingFunction(
             settings['Bounding box size'])
-        input_image = load_image(staffless_image_path)
-        ccs = input_image.cc_analysis()
-
+        # Load the connected components
+        ccs = glyphs_from_xml(
+            inputs['Connected Components'][0]['resource_path'])
+        # Do grouping
         cs_image = cknn.group_and_update_list_automatic(ccs,
                                                         grouping_function=func,
                                                         max_parts_per_group=4,
                                                         max_graph_size=16)
-
+        # Generate the Gamera features
         cknn.generate_features_on_glyphs(cs_image)
+        # Write the glyphs to GameraXML
         output_xml = gamera.gamera_xml.WriteXMLFile(glyphs=cs_image,
                                                     with_features=True)
         for i in range(len(outputs['Classification Result'])):
