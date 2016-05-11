@@ -20,7 +20,7 @@ class CCAnalysis(RodanTask):
         'maximum': 1
     }]
     output_port_types = [{
-        'name': 'Glyphs',
+        'name': 'Connected Components',
         'resource_types': ['application/gamera+xml'],
         'minimum': 1,
         'maximum': 1
@@ -32,4 +32,5 @@ class CCAnalysis(RodanTask):
         ccs = input_image.cc_analysis()
         output_xml = gamera.gamera_xml.WriteXMLFile(glyphs=ccs,
                                                     with_features=True)
-        output_xml.write_filename(outputs['Glyphs'][0]['resource_path'])
+        output_xml.write_filename(
+            outputs['Connected Components'][0]['resource_path'])
