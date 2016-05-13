@@ -1,4 +1,4 @@
-__version__ = "0.0.2"
+__version__ = "0.1.0"
 
 from gamera.core import init_gamera
 init_gamera()
@@ -8,6 +8,7 @@ module_loader('rodan.jobs.gamera-rodan.wrappers.classification')
 module_loader('rodan.jobs.gamera-rodan.wrappers.masking')
 
 module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.binarization')
+module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.cc_analysis')
 module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.image_conversion')
 module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.morphology')
 module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.threshold')
