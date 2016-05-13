@@ -53,41 +53,41 @@ class ClassificationTask(RodanTask):
     interactive = False
 
     input_port_types = [{
-        'name': 'Connected Components',
+        'name': 'GameraXML - Connected Components',
         'resource_types': ['application/gamera+xml'],
         'minimum': 1,
         'maximum': 1
     }, {
-        'name': 'Training Data',
+        'name': 'GameraXML - Training Data',
         'resource_types': ['application/gamera+xml'],
         'minimum': 1,
         'maximum': 1
     }, {
-        'name': 'Feature Selection',
+        'name': 'GameraXML - Feature Selection',
         'resource_types': ['application/gamera+xml'],
         'minimum': 0,
         'maximum': 1
     }]
     output_port_types = [{
-        'name': 'Classification Result',
+        'name': 'GameraXML - Classified Glyphs',
         'resource_types': ['application/gamera+xml'],
         'minimum': 1,
         'maximum': 2
     }]
 
     def run_my_task(self, inputs, settings, outputs):
-        classifier_path = inputs['Training Data'][0]['resource_path']
+        classifier_path = inputs['GameraXML - Training Data'][0]['resource_path']
         with self.tempdir() as tdir:
             tempPath = os.path.join(tdir, classifier_path + '.xml')
         copyfile(classifier_path, tempPath)
         cknn = gamera.knn.kNNNonInteractive(tempPath)
-        if 'Feature Selection' in inputs:
-            cknn.load_settings(inputs['Feature Selection'][0]['resource_path'])
+        if 'GameraXML - Feature Selection' in inputs:
+            cknn.load_settings(inputs['GameraXML - Feature Selection'][0]['resource_path'])
         func = gamera.classify.BoundingBoxGroupingFunction(
             settings['Bounding box size'])
         # Load the connected components
         ccs = glyphs_from_xml(
-            inputs['Connected Components'][0]['resource_path'])
+            inputs['GameraXML - Connected Components'][0]['resource_path'])
         # Do grouping
         cs_image = cknn.group_and_update_list_automatic(ccs,
                                                         grouping_function=func,
@@ -98,6 +98,6 @@ class ClassificationTask(RodanTask):
         # Write the glyphs to GameraXML
         output_xml = gamera.gamera_xml.WriteXMLFile(glyphs=cs_image,
                                                     with_features=True)
-        for i in range(len(outputs['Classification Result'])):
+        for i in range(len(outputs['GameraXML - Classified Glyphs'])):
             output_xml.write_filename(
-                outputs['Classification Result'][i]['resource_path'])
+                outputs['GameraXML - Classified Glyphs'][i]['resource_path'])
