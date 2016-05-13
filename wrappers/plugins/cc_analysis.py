@@ -53,7 +53,7 @@ class CCAnalysis(RodanTask):
     }]
 
     def run_my_task(self, inputs, settings, outputs):
-        image_path = inputs['1-Bit Image'][0]['resource_path']
+        image_path = inputs['1-Bit PNG Image'][0]['resource_path']
         input_image = gamera.core.load_image(image_path)
         ccs = input_image.cc_analysis()
         output_xml = gamera.gamera_xml.WriteXMLFile(glyphs=ccs,
