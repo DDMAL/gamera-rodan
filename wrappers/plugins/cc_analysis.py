@@ -27,13 +27,14 @@ import gamera.core
 import gamera.gamera_xml
 import gamera.classify
 import gamera.knn
+from gamera.plugins import segmentation
 from rodan.jobs.base import RodanTask
 
 
 class CCAnalysis(RodanTask):
     name = 'CC Analysis'
     author = "Andrew Fogarty"
-    description = "Performs CC analysis on an image, producing a GameraXML file of glyphs."
+    description = segmentation.cc_analysis.escape_docstring().replace("\\n", "\n").replace( '\\"', '"')
     enabled = True
     category = "Gamera - Classification"
     interactive = False
