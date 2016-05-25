@@ -53,7 +53,7 @@
          {
            image: "{{ image_url | safe }}",
            originalWidth: {{ image_width }},
-           polyPoints: []
+           polyPoints: {{ polygon_outer_points }}
          });
        var rks = $("#segment-view").data('RKSegment');
 
