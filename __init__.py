@@ -14,4 +14,5 @@ module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.morphology')
 module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.threshold')
 module_loader('rodan.jobs.gamera-rodan.wrappers.plugins.image_utilities')
 
+module_loader('rodan.jobs.gamera-rodan.wrappers.toolkits.document-preprocessing-toolkit.stable_paths')
 module_loader('rodan.jobs.gamera-rodan.wrappers.toolkits.custom.poly_mask')
