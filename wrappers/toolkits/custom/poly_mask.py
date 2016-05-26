@@ -44,7 +44,7 @@ class PolyMask(RodanTask):
     def run_my_task(self, inputs, settings, outputs):
         if '@polygon_outer_points' not in settings:
             task_image = load_image(inputs['PNG image'][0]['resource_path'])
-            polygon_outer_points = ''
+            polygon_outer_points = '[]'
             if 'Polygons' in inputs:
                 with open(inputs['Polygons'][0]['resource_path'], 'r') as myfile:
                     polygon_outer_points = myfile.read().replace('\n', '')
