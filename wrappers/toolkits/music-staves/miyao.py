@@ -14,6 +14,7 @@ class MiyaoStaffFinder(RodanTask):
     author = "Deepanjan Roy"
     description = 'use Miyao staff finding algorithm to detect staff lines.'
     settings = {
+        'title': 'Miyao settings',
         'type': 'object',
         'required': ['Number of lines', 'Scan lines', 'Blackness', 'Tolerance'],
         'properties': {
