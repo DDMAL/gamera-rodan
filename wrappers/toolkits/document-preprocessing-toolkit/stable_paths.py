@@ -31,9 +31,9 @@ from rodan.jobs.base import RodanTask
 import logging
 logger = logging.getLogger('rodan')
 
-class RemoveStaves(RodanTask):
+class StablePaths(RodanTask):
 
-    name = 'Remove Staves'
+    name = 'Stable Paths - remove'
     author = 'Ryan Bannon'
     description = stable_path_staff_detection.removeStaves.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
     settings ={}
@@ -65,7 +65,7 @@ class RemoveStaves(RodanTask):
 
 class StablePathDetection(RodanTask):
 
-    name = 'Stable Path Detection'
+    name = 'Stable Paths - detection'
     author = 'Ryan Bannon'
     description = stable_path_staff_detection.stablePathDetection.escape_docstring().replace("\\n", "\n").replace('\\"', '"')
     settings ={
