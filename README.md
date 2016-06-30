@@ -1,4 +1,4 @@
-# gamera-rodan
+# gamera_rodan
 Wrappers for Gamera tasks in Rodan.
 
 While Rodan does come with functionality that auto-generates wrappers for Gamera, it is limited in that it will:
