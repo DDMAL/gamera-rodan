@@ -4,8 +4,7 @@ from gamera.plugins.pil_io import from_pil
 from PIL import Image
 from PIL import ImageDraw
 from rodan.jobs.base import RodanTask
-from rodan.jobs.gamera import argconvert
-from rodan.jobs.gamera.base import ensure_pixel_type
+from rodan.jobs.gamera_rodan.helpers.ensure_pixel_type import ensure_pixel_type
 
 class PolyMask(RodanTask):
     name = 'Manual Polygon Masking'

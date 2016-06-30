@@ -4,10 +4,9 @@ from gamera.plugins.pil_io import from_pil
 from PIL import Image
 from PIL import ImageDraw
 from gamera.toolkits.musicstaves.stafffinder_miyao import StaffFinder_miyao
-from rodan.jobs.gamera.custom.segmentation.poly_lists import fix_poly_point_list, create_polygon_outer_points_json_dict
+from rodan.jobs.gamera_rodan.helpers.poly_lists import fix_poly_point_list, create_polygon_outer_points_json_dict
 from rodan.jobs.base import RodanTask
-from rodan.jobs.gamera import argconvert
-from rodan.jobs.gamera.base import ensure_pixel_type
+from rodan.jobs.gamera_rodan.helpers.ensure_pixel_type import ensure_pixel_type
 
 class MiyaoStaffFinder(RodanTask):
     name = 'Miyao Staff Finder'
@@ -53,7 +52,7 @@ class MiyaoStaffFinder(RodanTask):
     interactive = False 
 
     input_port_types = [{
-        'name': 'PNG image',
+        'name': 'Greyscale or one-bit PNG image',
         'resource_types': ['image/onebit+png','image/greyscale+png'],
         'minimum': 1,
         'maximum': 1
@@ -73,7 +72,7 @@ class MiyaoStaffFinder(RodanTask):
 
     def run_my_task(self, inputs, settings, outputs):
 
-        task_image = load_image(inputs['PNG image'][0]['resource_path'])
+        task_image = load_image(inputs['Greyscale or one-bit PNG image'][0]['resource_path'])
         staff_finder = StaffFinder_miyao(task_image, 0, 0)
 
         fn_kwargs = {
