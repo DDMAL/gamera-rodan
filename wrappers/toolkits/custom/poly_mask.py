@@ -1,10 +1,16 @@
 import json
+import os
 from gamera.core import load_image
 from gamera.plugins.pil_io import from_pil
 from PIL import Image
 from PIL import ImageDraw
 from rodan.jobs.base import RodanTask
 from rodan.jobs.gamera_rodan.helpers.ensure_pixel_type import ensure_pixel_type
+from rodan.settings import MEDIA_URL, MEDIA_ROOT
+
+def media_file_path_to_public_url(media_file_path):
+    chars_to_remove = len(MEDIA_ROOT)
+    return os.path.join(MEDIA_URL, media_file_path[chars_to_remove:])
 
 class PolyMask(RodanTask):
     name = 'Manual Polygon Masking'
@@ -79,13 +85,14 @@ class PolyMask(RodanTask):
                 f.close()
 
     def get_my_interface(self, inputs, settings):
-        t = 'interfaces/poly_mask.html'
-        c = {
-            'image_url': inputs['PNG image'][0]['large_thumb_url'],
+	image_path = inputs['PNG image'][0]['resource_path']
+        interface = 'interfaces/poly_mask.html'
+        data = {
+            'image_url': media_file_path_to_public_url(image_path),
             'image_width': settings['@image_width'],
             'polygon_outer_points': settings['@polygon_outer_points']
         }
-        return (t, c)
+        return (interface, data)
 
     def validate_my_user_input(self, inputs, settings, user_input):
         if 'polygon_outer_points' not in user_input:
