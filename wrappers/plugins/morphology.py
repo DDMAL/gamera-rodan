@@ -106,7 +106,7 @@ class gamera_dilate(RodanTask):
     def run_my_task(self, inputs, settings, outputs):
 
         image_result = load_image(inputs['Onebit PNG image'][0]['resource_path'])
-        image_result.dilate()
+        processed_image = image_result.dilate()
         for i in range(len(outputs['Onebit PNG dilated image'])):
-            image_result.save_PNG(outputs['Onebit PNG dilated image'][i]['resource_path'])
+            processed_image.save_PNG(outputs['Onebit PNG dilated image'][i]['resource_path'])
         return True
