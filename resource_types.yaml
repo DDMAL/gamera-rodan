@@ -16,3 +16,6 @@
 - mimetype: application/gamera-polygons+txt
   description: Python list of polygons ([[[x,y], [x,y], ...], [[x,y], [x,y], ...], ...])
   extension: txt
+- mimetype: application/musicstaves-staffline-averages+txt
+  description: Python list of staffline verticle averages ([[y1,y2,y3,y4], [y1,y2,y3,y4], ...])
+  extension: txt

@@ -68,6 +68,11 @@ class MiyaoStaffFinder(RodanTask):
         'resource_types': ['application/gamera-polygons+txt'],
         'minimum': 0,
         'maximum': 1
+    },{
+        'name': 'Staffline verticle averages (Miyao results)',
+        'resource_types': ['application/musicstaves-staffline-averages+txt'],
+        'minimum': 0,
+        'maximum': 1
     }]
 
     def run_my_task(self, inputs, settings, outputs):
@@ -87,13 +92,23 @@ class MiyaoStaffFinder(RodanTask):
         poly_list = fix_poly_point_list(poly_list, staff_finder.staffspace_height)
         poly_json_list = create_polygon_outer_points_json_dict(poly_list)
 
+        staffline_avgs = staff_finder.get_averages()
+        staffline_avgs_values = [map(lambda staffline: staffline.average_y, staff) for staff in staffline_avgs]   # returns same structure, but with values for each staffline avg
+
+        # If staffline averages output, save it
+        if 'Staffline verticle averages (Miyao results)' in outputs:
+            staffline_avgs_string = str(staffline_avgs_values)
+            f = open(outputs['Staffline verticle averages (Miyao results)'][0]['resource_path'], 'w')
+            f.write(staffline_avgs_string)
+            f.close()
+
         # If poly output, save it
         if 'Polygons (Miyao results)' in outputs:
             poly_string = str(poly_json_list)
             f = open(outputs['Polygons (Miyao results)'][0]['resource_path'], 'w')
             f.write(poly_string)
             f.close()
-       
+
         # If image output, save it
         if 'PNG image (Miyao results used as mask)' in outputs:
             mask_img = Image.new('L', (task_image.ncols, task_image.nrows), color='white')
