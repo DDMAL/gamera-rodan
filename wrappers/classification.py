@@ -34,7 +34,7 @@ from rodan.jobs.base import RodanTask
 
 
 class ClassificationTask(RodanTask):
-    name = 'Classifier'
+    name = 'Non-Interactive Classifier'
     author = "Ling-Xiao Yang"
     description = "Performs classification on a binarized staff-less image and outputs an xml file."
     enabled = True
